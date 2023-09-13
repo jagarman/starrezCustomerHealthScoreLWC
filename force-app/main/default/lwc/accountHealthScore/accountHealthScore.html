@@ -1,0 +1,132 @@
+<template>
+  <lightning-card title="Customer Health Score" icon-name="standard:unified_health_score">
+      <template if:false={isLoading}>
+          <lightning-tabset>
+            <lightning-tab label="Overview" class={overviewTabColor}>
+              <div class="slds-text-align_center slds-m-top_medium slds-m-bottom_medium">
+                  <span class="slds-text-title_bold">Customer Health Score:</span>
+                  <template if:true={isCancellationPending}>
+                      <p class="slds-text-heading_large">Cancellation Pending</p>
+                  </template>
+                  <template if:false={isCancellationPending}>
+                      <p class="slds-text-heading_large">{account.fields.Customer_Health_Score__c.value}</p>
+                  </template>
+              </div>
+          </lightning-tab>
+              <lightning-tab label="Main Score">
+                <div class="slds-text-align_center slds-m-top_medium slds-m-bottom_small">
+                  <p>All customers start with a Health Score of 10 and lose points based on key Account metrics.</p>
+              </div>
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                  <thead>
+                      <tr class="slds-text-title_caps">
+                          <th>Metric</th>
+                          <th>Deduction</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Low Account Engagement</td>
+                          <td>{account.fields.CHS_Account_Engagements_Score__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Low NPS Score</td>
+                          <td>{account.fields.CHS_NPS_Score__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Low Pendo Active Days</td>
+                          <td>{account.fields.CHS_Pendo_Active_Days_Score__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Recent Low Services CSAT Score</td>
+                          <td>{account.fields.CHS_Services_CSAT_Score__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Recent Low Support CSAT Score</td>
+                          <td>{account.fields.CHS_Support_CSAT_Score__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Support Ticket Volume Too Low/High</td>
+                          <td>{account.fields.CHS_Support_Ticket_Volume_Score__c.value}</td>
+                      </tr>
+                  </tbody>
+              </table>
+              </lightning-tab>
+              <lightning-tab label="Boosters">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                  <thead>
+                      <tr class="slds-text-title_caps">
+                          <th>Metric</th>
+                          <th>Boost</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>SABO/SIT/EXEC Board Member</td>
+                          <td>{account.fields.CHS_Booster_Board_Member__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Case Study Participation</td>
+                          <td>{account.fields.CHS_Booster_Case_Study_Participation__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>StarRez Conference Presenter</td>
+                          <td>{account.fields.CHS_Booster_Conference_Presenter__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Attended StarRez Event/Dinner</td>
+                          <td>{account.fields.CHS_Booster_StarRez_Event_Dinner__c.value}</td>
+                      </tr>                    
+                      <tr>
+                          <td>Confirmed Positive StarRez Exec Engagement</td>
+                          <td>{account.fields.CHS_Booster_SR_Exec_Success_Validation__c.value}</td>
+                      </tr>
+                  </tbody>
+              </table>
+              </lightning-tab>
+              <lightning-tab label="Busters">
+                <table class="slds-table slds-table_bordered slds-table_cell-buffer">
+                  <thead>
+                      <tr class="slds-text-title_caps">
+                          <th>Metric</th>
+                          <th>Deduction</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Recent Acquisition or Merger</td>
+                          <td>{account.fields.CHS_Bummer_Acquisition_or_Merger__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Recent Departure of Primary User/Champion</td>
+                          <td>{account.fields.CHS_Bummer_Primary_User_Champion_Left__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Account in Active RFP</td>
+                          <td>{account.fields.CHS_Bummer_Active_RFP__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Open Escalation Case</td>
+                          <td>{account.fields.CHS_Bummer_Escalation_Case__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Open Customer at Risk Case</td>
+                          <td>{account.fields.CHS_Bummer_Customer_at_Risk_Case__c.value}</td>
+                      </tr>
+                      <tr>
+                          <td>Open Cancelation Case</td>
+                          <td>{account.fields.CHS_Bummer_Cancelation_Case__c.value}</td>
+                      </tr>
+                  </tbody>
+              </table>
+              </lightning-tab>
+          </lightning-tabset>
+      </template>
+      <template if:true={isLoading}>
+          <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+      </template>
+      <template if:true={error}>
+          <p>Error: {error}</p>
+      </template>
+  </lightning-card>
+</template>
